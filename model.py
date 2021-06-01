@@ -32,14 +32,15 @@ class RandomForest(Model):
 
         print('R2 score on train: ', self.model.score(data, target))
 
-    def predict(self, test_set: MoleculePool):
+    def predict(self, test_set: MoleculePool, show_r2=True):
         """
 
         :param moleculepool:
         :return:
         """
         test_prepro = test_set.preprocess_data()
-        print('R2 score: ', self.model.score(test_prepro, test_set.target))
+        if show_r2:
+            print('R2 score: ', self.model.score(test_prepro, test_set.target))
         score = self.model.predict(test_prepro)
         test_set.add_score(score)
         return score

@@ -17,7 +17,7 @@ class MoleculePool:
         """
         train = MoleculePool(self.df.sample(n=batch_size))
         test = MoleculePool(self.df.drop(train.df.index, axis=0))
-        return train
+        return train, test
 
     def create_batch(self, train_index):
         """
@@ -39,6 +39,12 @@ class MoleculePool:
 
         top_k_found = len(predicted_top_k.df[predicted_top_k.df["name"].isin(real_top_k.df["name"])])
         print('Top', k, 'molecules found : ', top_k_found)
+
+    def new_get_top_k(self, k, real_top_k):
+        # Get best molecule
+        found_top_k = self.df.sort_values('score')[:k]
+        matched_top_k = real_top_k.merge(found_top_k, how='inner')
+        print(len(matched_top_k))
 
     def preprocess_data(self):
         preprocessed_data = self.data.drop(["name", "smiles"], axis=1)
