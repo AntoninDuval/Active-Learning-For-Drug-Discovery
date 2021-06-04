@@ -1,15 +1,18 @@
 import pandas as pd
+from typing import Callable, Iterable, List, Optional, Sequence, Tuple, TypeVar
 import numpy as np
 
-class MoleculePool:
+
+class MoleculePool(object):
 
     def __init__(self, df):
         self.df = df
         self.target = self.df['score']
         self.data = self.df.drop('score', axis=1)
         self.score = None
+        self.variance = None
 
-    def initialize_batch(self, batch_size):
+    def initialize_batch(self, batch_size: int):
         """
 
         :param batch_size:
@@ -52,3 +55,6 @@ class MoleculePool:
 
     def add_score(self, score):
         self.score = score
+
+    def add_variance(self, variance):
+        self.variance = variance

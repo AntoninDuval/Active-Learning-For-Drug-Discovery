@@ -39,3 +39,21 @@ class Greedy(Acquirer):
         """
         index_sorted = np.argsort(moleculepool.score)
         return MoleculePool(moleculepool.df.iloc[index_sorted[:self.batch_size]])
+
+
+class UBC(Acquirer):
+    def __init__(self, batch_size, beta=2):
+        super().__init__("Uncertainty", batch_size)
+        self.beta = beta
+        self.dict_ = {}
+
+    def select_train_set(self, moleculepool: MoleculePool):
+        """
+
+        :param moleculepool:
+        :param batch_size:
+        :return:
+        """
+        ucb_score = moleculepool.score + self.beta*np.sqrt(moleculepool.variance)
+        index_sorted = np.argsort(ucb_score)
+        return MoleculePool(moleculepool.df.iloc[index_sorted[:self.batch_size]])

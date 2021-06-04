@@ -13,9 +13,10 @@ df = df.iloc[:, 1:]
 molecule_pool = MoleculePool(df)
 
 model = RandomForest({'n_estimators': 100,
-                      'max_depth': 8})
+                      'max_depth': 8,
+                      })
 
-acquisition_function = RandomSearch(batch_size=BATCH_SIZE)
+acquisition_function = UBC(batch_size=BATCH_SIZE)
 
 
 print('Initialize training set...')

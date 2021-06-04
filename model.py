@@ -1,6 +1,7 @@
 from sklearn.ensemble import RandomForestRegressor
 from abc import ABC
 from molecule_pool import *
+import numpy as np
 
 
 class Model(ABC):
@@ -25,7 +26,6 @@ class RandomForest(Model):
         :param moleculepool:
         :return:
         """
-
         data = moleculepool.preprocess_data()
         target = moleculepool.target
         self.model.fit(data, target)
@@ -38,10 +38,18 @@ class RandomForest(Model):
         :param moleculepool:
         :return:
         """
+
+        preds = np.zeros((len(test_set.df), len(self.model.estimators_)))
+
         test_prepro = test_set.preprocess_data()
         if show_r2:
             print('R2 score: ', self.model.score(test_prepro, test_set.target))
         score = self.model.predict(test_prepro)
+
+        for j, submodel in enumerate(self.model.estimators_):
+            preds[:, j] = submodel.predict(test_prepro)
+
         test_set.add_score(score)
+        test_set.add_variance(np.var(preds, axis=1))
         return score
 
