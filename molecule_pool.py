@@ -1,14 +1,12 @@
-import pandas as pd
-from typing import Callable, Iterable, List, Optional, Sequence, Tuple, TypeVar
 import numpy as np
-
+from sklearn.preprocessing import StandardScaler
 
 class MoleculePool(object):
 
     def __init__(self, df):
         self.df = df
-        self.target = self.df['score']
-        self.data = self.df.drop('score', axis=1)
+        self.target = self.df[:, 2]
+        self.data = np.delete(self.df, 2, axis=1)
         self.score = None
         self.variance = None
 
@@ -18,8 +16,9 @@ class MoleculePool(object):
         :param batch_size:
         :return:
         """
-        train = MoleculePool(self.df.sample(n=batch_size))
-        test = MoleculePool(self.df.drop(train.df.index, axis=0))
+        train_idx = np.random.choice(len(self.df), size=batch_size, replace=False)
+        train = MoleculePool(self.df[train_idx])
+        test = MoleculePool(np.delete(self.df, train_idx, axis=0))
         return train, test
 
     def create_batch(self, train_index):
@@ -28,29 +27,23 @@ class MoleculePool(object):
         :param train_index:
         :return:
         """
-        train = MoleculePool(self.df.iloc[train_index])
-        test = MoleculePool(self.df.drop(train.df.index, axis=0))
+        train = MoleculePool(self.df[np.isin(self.df[:, 0], train_index)])
+        test = MoleculePool(self.df[~np.isin(self.df[:, 0], train_index)])
 
         return train, test
 
-    def get_top_k(self, k):
-        real_score_sorted = np.argsort(self.target)
-        predicted_score_sorted = np.argsort(self.score)
-
-        real_top_k = MoleculePool(self.df.iloc[real_score_sorted[:k]])
-        predicted_top_k = MoleculePool(self.df.iloc[predicted_score_sorted[:k]])
-
-        top_k_found = len(predicted_top_k.df[predicted_top_k.df["name"].isin(real_top_k.df["name"])])
-        print('Top', k, 'molecules found : ', top_k_found)
-
-    def new_get_top_k(self, k, real_top_k):
+    def get_top_k(self, k, top_k):
         # Get best molecule
-        found_top_k = self.df.sort_values('score')[:k]
-        matched_top_k = real_top_k.merge(found_top_k, how='inner')
-        print(len(matched_top_k))
+        idx_best = self.sort_idx_by_true_score()[:k]
+        found_top_k = self.df[idx_best, 0]
+
+        matched_top_k = set(found_top_k).intersection(top_k)
+        return matched_top_k
 
     def preprocess_data(self):
-        preprocessed_data = self.data.drop(["name", "smiles"], axis=1)
+        preprocessed_data = np.delete(self.data, [0, 1], axis=1)
+        scaler = StandardScaler()
+        preprocessed_data = scaler.fit_transform(preprocessed_data)
         return preprocessed_data
 
     def add_score(self, score):
@@ -58,3 +51,9 @@ class MoleculePool(object):
 
     def add_variance(self, variance):
         self.variance = variance
+
+    def sort_idx_by_true_score(self):
+        return self.target.argsort()
+
+    def sort_idx_best_preds(self):
+        return self.score.argsort()

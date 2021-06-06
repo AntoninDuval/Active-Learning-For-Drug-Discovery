@@ -1,5 +1,4 @@
 from abc import ABC
-import pandas as pd
 from molecule_pool import MoleculePool
 import numpy as np
 
@@ -21,8 +20,8 @@ class RandomSearch(Acquirer):
 
     def select_train_set(self, moleculepool: MoleculePool):
 
-        df = moleculepool.df.sample(n=self.batch_size)
-        train_set = MoleculePool(df)
+        train_idx = np.random.choice(len(moleculepool.df), size=self.batch_size, replace=False)
+        train_set = MoleculePool(moleculepool.df[train_idx])
         return train_set
 
 
@@ -37,8 +36,8 @@ class Greedy(Acquirer):
         :param batch_size:
         :return:
         """
-        index_sorted = np.argsort(moleculepool.score)
-        return MoleculePool(moleculepool.df.iloc[index_sorted[:self.batch_size]])
+        idx_best_preds = moleculepool.sort_idx_best_preds()[:self.batch_size]
+        return MoleculePool(moleculepool.df[idx_best_preds])
 
 
 class UBC(Acquirer):
