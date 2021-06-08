@@ -23,8 +23,12 @@ class RandomSearch(Acquirer):
         super().__init__("RandomSearch", batch_size)
         self.require_var = False
 
-    def select_train_set(self, moleculepool: MoleculePool):
-
+    def select_train_set(self, moleculepool: MoleculePool) -> MoleculePool:
+        """
+        Return a random subset of the molecule dataset of size batch size
+        :param moleculepool:
+        :return:
+        """
         train_idx = np.random.choice(len(moleculepool.df), size=self.batch_size, replace=False)
         train_set = MoleculePool(moleculepool.df[train_idx])
         return train_set
@@ -33,12 +37,11 @@ class RandomSearch(Acquirer):
 class Greedy(Acquirer):
     def __init__(self, batch_size):
         super().__init__("Greedy", batch_size)
-
         self.require_var = False
 
-    def select_train_set(self, moleculepool: MoleculePool):
+    def select_train_set(self, moleculepool: MoleculePool) -> MoleculePool:
         """
-
+        Select the top molecules that have the highest predicted score.
         :param moleculepool:
         :param batch_size:
         :return:
@@ -54,9 +57,9 @@ class UBC(Acquirer):
         self.dict_ = {}
         self.require_var = True
 
-    def select_train_set(self, moleculepool: MoleculePool):
+    def select_train_set(self, moleculepool: MoleculePool) -> MoleculePool:
         """
-
+        Select the top molecules that have the highest UBC score, which is a combination of exploration and exploitation
         :param moleculepool:
         :param batch_size:
         :return:

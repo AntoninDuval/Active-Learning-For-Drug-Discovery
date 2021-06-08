@@ -1,14 +1,12 @@
-from sklearn.ensemble import RandomForestRegressor
 from abc import ABC
-from molecule_pool.molecule_pool import *
-import numpy as np
+from sklearn.ensemble import RandomForestRegressor
 import torch
 import torch.nn as nn
-from network.mlp import MLP
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 import tqdm
-
+from molecule_pool.molecule_pool import *
+from network.mlp import MLP
 
 class Model(ABC):
     def __init__(self, name):
@@ -17,7 +15,7 @@ class Model(ABC):
     def predict(self, moleculepool: MoleculePool, require_var: bool):
         pass
 
-    def train(self, moleculepool : MoleculePool, show_error=True):
+    def train(self, moleculepool: MoleculePool):
         pass
 
 
@@ -26,22 +24,26 @@ class RandomForest(Model):
         super().__init__("RandomForestRegressor")
         self.model = RandomForestRegressor(**param)
 
-    def train(self, moleculepool):
+    def train(self, moleculepool, verbose: bool = False):
         """
 
         :param moleculepool:
+        :param verbose:
         :return:
         """
         data = moleculepool.preprocess_data()
         target = moleculepool.target
         self.model.fit(data, target)
+        if verbose:
+            print('R2 score on train: ', self.model.score(data, target))
 
-        print('R2 score on train: ', self.model.score(data, target))
-
-    def predict(self, test_set: MoleculePool, require_var, verbose:bool=False):
+    def predict(self, test_set: MoleculePool, require_var, verbose: bool = False) -> np.array:
         """
-
-        :param moleculepool:
+        Predict the score using the RF model on the test set. Compute the variance by getting
+        the prediction of each tree.
+        :param test_set:
+        :param require_var:
+        :param verbose:
         :return:
         """
         preds = np.zeros((len(test_set.df), len(self.model.estimators_)))
@@ -71,9 +73,11 @@ class NN(Model):
         self.epoch = epoch
         self.criterion = nn.MSELoss()
 
-    def train(self, moleculepool, verbose:bool=False):
+    def train(self, moleculepool, verbose: bool = False):
         """
+
         :param moleculepool:
+        :param verbose:
         :return:
         """
         data = moleculepool.preprocess_data().astype(float)
@@ -98,8 +102,13 @@ class NN(Model):
         if verbose:
             print(loss)
 
-    def predict(self, test_set: MoleculePool, require_var=False):
+    def predict(self, test_set: MoleculePool, require_var=False) -> np.array:
+        """
 
+        :param test_set:
+        :param require_var:
+        :return:
+        """
         test_prepro = torch.tensor(test_set.preprocess_data().astype(float))
         with torch.no_grad():
             score = self.model(test_prepro.detach())
@@ -114,6 +123,11 @@ class NN(Model):
                 layer.reset_parameters()
 
     def _normalize(self, target):
+        """
+        Normalize the target to make the training of the nn easier
+        :param target:
+        :return:
+        """
         self.mean = np.nanmean(target)
         self.std = np.nanstd(target)
         return (target - self.mean) / self.std
