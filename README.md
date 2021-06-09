@@ -54,3 +54,9 @@ Additionnaly, we computed the Enrichement Factor (EF) of each of those strategie
 ![Random Forest vs NN on the Greedy Approach](figures/rf_vs_nn.png)
 
 On this last graph, we can compare the sensitivity of the results to the model choice. It seems the MLP model performs slightly better than the Random Forest, finding more top molecules in less iterations.
+
+## Next Steps
+
+* Implement the computation of the variance for NN model
+* Implement other acquisition functions like Thomson sampling
+* Test results sensitivy to batch size
