@@ -24,10 +24,10 @@ The structure of this code follow broadly what is describe in the paper.
 
 ## Pipeline
 
-The main pipeline in the notebook "main.ipynb" train an active learning strategy for every combination of model and acquisition function that are implemented ( with the exception of the combination of UBC acquisition and Neural Network which is not yet implemented).
-For every combination, the experiment is run 5 times, and each experiment excecutes 6 iteration.
+The main pipeline in the notebook "main.ipynb" can be launch to train an active learning strategy for every combination of model and acquisition function that are implemented ( with the exception of the combination of UBC acquisition and Neural Network which is not yet implemented).
+For every combination, the experiment is run 5 times, and each experiment executes 6 iterations.
 The results are saved in a csv file in the folder data.
-The second part of the notebook is for analyzing the results and compare the different approaches.
+The second part of the notebook is used for analyzing the results of the experiments and compare the different approaches.
 
 
 ## Running the code
