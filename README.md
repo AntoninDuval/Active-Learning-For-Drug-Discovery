@@ -27,7 +27,7 @@ The structure of this code follow broadly what is describe in the paper.
 The main pipeline in the notebook "main.ipynb" train an active learning strategy for every combination of model and acquisition function that are implemented ( with the exception of the combination of UBC acquisition and Neural Network which is not yet implemented).
 For every combination, the experiment is run 5 times, and each experiment excecutes 6 iteration.
 The results are saved in a csv file in the folder data.
-The second part of the notebook is for analyzing the results and compare the different approach.
+The second part of the notebook is for analyzing the results and compare the different approaches.
 
 
 ## Running the code
@@ -39,5 +39,13 @@ You can change the number of experiments that is computed for each combination o
 ## Results
 ![Results for each combination](figures/plot_acquisition.png)
 
+We want to look at the percentage of top k molecules found after each iteration. This indicates how performant is our strategy to explore the dataset and finding quickly the best molecules that have the highest docking score.
+Using the RandomSearch as a baseline, we can compare our different approaches.
+Results show that the Greedy metric seems to perform slightly better that the Upper Bound Confidence metric, which is in line with what the research paper found.
+
+Additionnaly, we computed the Enrichement Factor (EF) of each of those strategies. The EF is the % of top k molecules found at the last iteration, divided by the ones found with the random baseline.
+EF( NN, Greedy) = 
+EF( RF, Greedy) = 
+EF( RF, UBC) = 
 
 ![Random Forest vs NN on the Greedy Approach](figures/rf_vs_nn.png)
