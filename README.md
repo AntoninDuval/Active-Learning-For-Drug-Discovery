@@ -35,3 +35,9 @@ The second part of the notebook is for analyzing the results and compare the dif
 Add the csv file in the data folder. Open the notebook "main.ipynb" and modify if necessary the PATH variable of your csv file.
 Eac
 You can change the number of experiments that is computed for each combination of model and acquisition function.
+
+## Results
+![Results for each combination](figures/plot_acquisition.png)
+
+
+![Random Forest vs NN on the Greedy Approach](figures/rf_vs_nn.png)
