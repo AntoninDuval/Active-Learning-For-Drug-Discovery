@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="73b4f85c-cd5c-4bcd-af08-dc1616da1a8e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/acquirer/acquirer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/acquirer/acquirer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/molecule_pool/molecule_pool.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/molecule_pool/molecule_pool.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +24,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../thales" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../molpal" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RunDashboard">
