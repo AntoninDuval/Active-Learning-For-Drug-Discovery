@@ -44,8 +44,11 @@ Using the RandomSearch as a baseline, we can compare our different approaches.
 Results show that the Greedy metric seems to perform slightly better that the Upper Bound Confidence metric, which is in line with what the research paper found.
 
 Additionnaly, we computed the Enrichement Factor (EF) of each of those strategies. The EF is the % of top k molecules found at the last iteration, divided by the ones found with the random baseline.
-EF( NN, Greedy) = 
-EF( RF, Greedy) = 
-EF( RF, UBC) = 
+
+|    EF   | Greedy | UBC |
+|-------|------|------|
+| NN |    10.6  |    Not implemented  |
+|  Random Forest |    10.25  |   8.99   |
+
 
 ![Random Forest vs NN on the Greedy Approach](figures/rf_vs_nn.png)
