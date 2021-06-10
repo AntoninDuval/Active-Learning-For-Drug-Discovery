@@ -12,7 +12,7 @@ This repository is a simple implementation of the method proposed in the paper [
 
 ## Object Model
 
-The structure of this code follow broadly what is describe in the paper.
+The structure of this code follow broadly what is described in the paper.
 
 **MoleculePool**: Class for managing a dataset of molecules. 
 
