@@ -1,4 +1,4 @@
-# aqemia_test
+# Active Learning For Drug Discovery
 
 ## Overview
 To develop a new drug, we often need to screen larger and larger libraries to find the molecules with the highest affinity for a given protein. To deal with this issue, Bayesian optimization techniques can be used as an active learning strategy to explore the library in an optimized way.
